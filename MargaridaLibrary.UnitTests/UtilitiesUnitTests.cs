@@ -1,6 +1,8 @@
 using NUnit.Framework;
-using Margarida.Util;
 using FluentAssertions;
+using Margarida.Util.Linq;
+using Margarida.Util.Convert;
+using Margarida.Util.String;
 
 namespace Margarida.UnitTests
 {

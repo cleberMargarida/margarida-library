@@ -8,11 +8,20 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>Tools for produtity to code.</Description>
     <NeutralLanguage>en</NeutralLanguage>
+    <RepositoryUrl>https://github.com/cleberMargarida/Margarida-Library.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Copyright></Copyright>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.3.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
+
+	<ItemGroup>
+		<None Include="licenses\LICENSE.txt" Pack="true" PackagePath="" />
+	</ItemGroup>
 
 </Project>
