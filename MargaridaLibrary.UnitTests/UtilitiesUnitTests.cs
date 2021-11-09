@@ -3,6 +3,7 @@ using FluentAssertions;
 using Margarida.Util.Linq;
 using Margarida.Util.Convert;
 using Margarida.Util.String;
+using System.Collections.Generic;
 
 namespace Margarida.UnitTests
 {
@@ -20,7 +21,7 @@ namespace Margarida.UnitTests
 
             public int Integer { get; set; }
             public string Phrase { get; set; }
-            public CopiedStructLvl2 Lvl2 { get; set; }
+            public CopiedStructLvl2? Lvl2 { get; set; }
 
             public static SomeStruct Gen()
             {
@@ -97,7 +98,7 @@ namespace Margarida.UnitTests
                     .Excluding(a => a.Lvl2.Integer));
 
             copied.Integer.Should().Be(0);
-            copied.Lvl2.Integer.Should().Be(0);
+            copied.Lvl2.GetValueOrDefault().Integer.Should().Be(0);
         }
 
         [Test]
@@ -117,7 +118,7 @@ namespace Margarida.UnitTests
                     .Excluding(a => a.Lvl2.Integer));
 
             copied.Integer.Should().Be(0);
-            copied.Lvl2.Integer.Should().Be(0);
+            copied.Lvl2.GetValueOrDefault().Integer.Should().Be(0);
         }
 
         [Test]
@@ -127,6 +128,32 @@ namespace Margarida.UnitTests
             const string expected = "123\t\b\t\"";
 
             source.Unescape().Should().Be(expected);
+        }
+
+        [Test]
+        public void TestMethodHasValue()
+        {
+            var complexListWithValue = new[] { SomeStruct.Gen(), SomeStruct.Gen() };
+            List<SomeStruct> complexListWithoutValue = new();
+            var complexWithValue = SomeStruct.Gen();
+            var complexWithValueAndAttNule = SomeStruct.Gen().Inner(x => x.Lvl2 = null);
+            string stringWithValue = "abc";
+            string stringWithoutValue = "";
+            int intWithValue = 1;
+            int intWithoutValue = 0;
+            long longWithValue = 1;
+            long longWithoutValue = 0;
+
+            Assert.IsTrue(complexListWithValue.HasValue());
+            Assert.IsTrue(complexWithValue.HasValue());
+            Assert.IsTrue(complexWithValueAndAttNule.HasValue());
+            Assert.IsTrue(stringWithValue.HasValue());
+            Assert.IsTrue(intWithValue.HasValue());
+            Assert.IsTrue(longWithValue.HasValue());
+            Assert.IsFalse(complexListWithoutValue.HasValue());
+            Assert.IsFalse(stringWithoutValue.HasValue());
+            Assert.IsFalse(intWithoutValue.HasValue());
+            Assert.IsFalse(longWithoutValue.HasValue());
         }
     }
 }
