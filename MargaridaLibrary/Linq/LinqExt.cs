@@ -1,10 +1,4 @@
-﻿using Margarida.Util.Bool;
-using Margarida.Util.String;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections;
-
-namespace Margarida.Util.Linq
+﻿namespace Margarida.Util.Linq
 {
     public static class LinqExt
     {
@@ -14,10 +8,16 @@ namespace Margarida.Util.Linq
             return input;
         }
 
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> act)
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             foreach (var item in source)
-                act(item);
+                action(item);
+        }
+
+        public static void Repeat<T>(this int times, Action action)
+        {
+            for (var i = 0; i < times; i++)
+                action();
         }
     }
 }

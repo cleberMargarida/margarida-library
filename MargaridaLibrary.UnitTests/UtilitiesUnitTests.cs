@@ -1,12 +1,15 @@
-using NUnit.Framework;
+using System.Collections.Generic;
 using FluentAssertions;
 using Margarida.Util.Linq;
 using Margarida.Util.Convert;
 using Margarida.Util.String;
-using System.Collections.Generic;
 using Margarida.Util.Type;
 using Margarida.Util.Json;
-using Margarida.Util.Decimal;
+using Margarida.Util.Number;
+using NUnit.Framework;
+using System;
+using Margarida.Util.Enumerable;
+using Margarida.Util.Bool;
 
 namespace Margarida.UnitTests
 {
@@ -14,9 +17,9 @@ namespace Margarida.UnitTests
     public class UtilitiesUnitTests
     {
         #region Internal Classes
-        internal struct SomeStruct
+        public struct SomeStruct
         {
-            internal struct CopiedStructLvl2
+            public struct CopiedStructLvl2
             {
                 public string Phrase { get; set; }
                 public int Integer { get; set; }
@@ -136,38 +139,128 @@ namespace Margarida.UnitTests
         }
 
         [Test]
-        public void TestMethodHasValue()
+        public void TestHasValue_complexListWithValue()
         {
             var complexListWithValue = new[] { SomeStruct.Gen(), SomeStruct.Gen() };
-            List<SomeStruct> complexListWithoutValue = new();
-            List<SomeStruct>? complexListNull = null;
-            var complexWithValue = SomeStruct.Gen();
-            var complexWithValueAndAttNule = SomeStruct.Gen().Inner(x => x.Lvl2 = null);
-            string stringWithValue = "abc";
-            string stringWithoutValue = "";
-            int intWithValue = 1;
-            int intWithoutValue = 0;
-            long longWithValue = 1;
-            long longWithoutValue = 0;
-
             Assert.IsTrue(complexListWithValue.HasValue(), "Assert of complex list with values has failed.");
-            Assert.IsTrue(complexWithValue.HasValue(), "Assert of complex object with values has failed.");
-            Assert.IsTrue(complexWithValueAndAttNule.HasValue(), "Assert of complex object with values and atributte null has failed.");
-            Assert.IsTrue(stringWithValue.HasValue(), "Assert of string with values has failed.");
-            Assert.IsTrue(intWithValue.HasValue(), "Assert of int with values has failed.");
-            Assert.IsTrue(longWithValue.HasValue(), "Assert of long with values has failed.");
-            Assert.IsFalse(complexListNull.HasValue(), "Assert of complex list null has failed.");
+        }
+
+        [Test]
+        public void TestHasValue_complexListWithoutValue()
+        {
+            List<SomeStruct> complexListWithoutValue = new();
             Assert.IsFalse(complexListWithoutValue.HasValue(), "Assert of complex list without values has failed.");
+        }
+
+        [Test]
+        public void TestHasValue_complexListNull()
+        {
+            List<SomeStruct>? complexListNull = null;
+            Assert.IsFalse(complexListNull.HasValue(), "Assert of complex list null has failed.");
+        }
+
+        [Test]
+        public void TestHasValue_complexWithValue()
+        {
+            var complexWithValue = SomeStruct.Gen();
+            Assert.IsTrue(complexWithValue.HasValue(), "Assert of complex object with values has failed.");
+        }
+
+        [Test]
+        public void TestHasValue_complexWithValueAndAttNule()
+        {
+            var complexWithValueAndAttNule = SomeStruct.Gen().Inner(x => x.Lvl2 = null);
+            Assert.IsTrue(complexWithValueAndAttNule.HasValue(), "Assert of complex object with values and atributte null has failed.");
+        }
+
+        [Test]
+        public void TestHasValue_stringWithValue()
+        {
+            string stringWithValue = "abc";
+            Assert.IsTrue(stringWithValue.HasValue(), "Assert of string with values has failed.");
+        }
+
+        [Test]
+        public void TestHasValue_stringWithoutValue()
+        {
+            string stringWithoutValue = "";
             Assert.IsFalse(stringWithoutValue.HasValue(), "Assert of string empty has failed.");
+        }
+
+        [Test]
+        public void TestHasValue_intWithValue()
+        {
+            int intWithValue = 1;
+            Assert.IsTrue(intWithValue.HasValue(), "Assert of int with values has failed.");
+        }
+
+        [Test]
+        public void TestHasValue_intWithoutValue()
+        {
+            int intWithoutValue = 0;
             Assert.IsFalse(intWithoutValue.HasValue(), "Assert of int without values has failed.");
+        }
+
+        [Test]
+        public void TestHasValue_longWithValue()
+        {
+            long longWithValue = 1;
+            Assert.IsTrue(longWithValue.HasValue(), "Assert of long with values has failed.");
+        }
+
+        [Test]
+        public void TestHasValue_longWithoutValue()
+        {
+            long longWithoutValue = 0;
             Assert.IsFalse(longWithoutValue.HasValue(), "Assert of long without values has failed.");
         }
 
         [Test]
         public void TestRandomNumber()
         {
-            NumberExt.RandomNumber.Should().BePositive();
-            NumberExt.RandomNumber.Should().BeGreaterThanOrEqualTo(0);
+            NumberExt.RandomNumber().Should().BePositive();
+            NumberExt.RandomNumber().Should().BeGreaterThanOrEqualTo(0);
+        }
+
+        [Test]
+        public void TestSetDateTimeFrom_yyyymmddWithSlash()
+        {
+            DateTime dateTime = new DateTime(), expect = new DateTime(2021, 01, 01);
+            string dtString = "2021/01/01", format = "yyyy/mm/dd";
+
+            dateTime.SetDateTimeFrom(dtString)
+                .Should().Be(expect);
+
+            dateTime.SetDateTimeFrom(dtString, format)
+                .Should().Be(expect);
+        }
+
+        [Test]
+        public void TestSetDateTimeFrom_yyyymmddWithHyphen()
+        {
+            DateTime dateTime = new DateTime(), expect = new DateTime(2021, 01, 01);
+            string dtString = "2021-01-01", format = "yyyy-mm-dd";
+
+            dateTime.SetDateTimeFrom(dtString)
+                .Should().Be(expect);
+
+            dateTime.SetDateTimeFrom(dtString, format)
+                .Should().Be(expect);
+        }
+
+        [Test]
+        public void TestBoolExtValueGets()
+        {
+            var p = true;
+            var q = false;
+
+            p.Value().Value.Should().BeTrue();
+            p.Value().Not.Should().BeFalse();
+            p.Then(q).Should().BeFalse();
+            p.With(!q).HasSameValue.Should().BeTrue();
+            (!p).With(q).HasSameValue.Should().BeTrue();
+            (!p).With(q).ResultInFalse.Should().BeTrue();
+            p.With(!q).ResultInTrue.Should().BeTrue();
         }
     }
 }

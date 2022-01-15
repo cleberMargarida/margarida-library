@@ -9,21 +9,11 @@ namespace Margarida.Util.Type
         {
             switch (obj)
             {
-                case var o when obj is int:
-                    return o as int? == default(int);
-
-                case var o when obj is string:
-                    return string.IsNullOrEmpty(o as string);
-
-                case var o when obj is bool:
-                    return o as bool? == default(bool);
-
-                case var o when obj is long:
-                    return o as long? == default(long);
-
-                case var o when obj is char:
-                    return o as char? == default(char);
-
+                case var o when obj is int: return o as int? == default(int);
+                case var o when obj is string: return string.IsNullOrEmpty(o as string);
+                case var o when obj is bool: return o as bool? == default(bool);
+                case var o when obj is long: return o as long? == default(long);
+                case var o when obj is char: return o as char? == default(char);
                 default: return obj == null;
             }
         }

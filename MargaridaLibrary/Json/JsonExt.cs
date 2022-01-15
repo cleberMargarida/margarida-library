@@ -24,8 +24,8 @@ namespace Margarida.Util.Json
                 }
                 catch (Exception ex)
                 {
-                    var graph = JObject.Parse(source.Serialize());
                     ExtractMembersFromException(ex, out var value, out var propertiesLevel);
+                    var graph = JObject.Parse(source.Serialize());
                     TreatedMembers(graph, propertiesLevel, level: 0, value);
                     var copy = TryConvert(graph);
                     return copy;

@@ -2,8 +2,10 @@
 {
     public static class NumberExt
     {
-        public static int RandomNumber() => new Random().Next(0, int.MaxValue);
+        private static Random random = new Random();
 
-        public static int RandomNumber(this int max) => new Random().Next(0, max);
+        public static int RandomNumber() => random.Next(0, int.MaxValue);
+
+        public static int RandomNumber(this int max) => random.Next(max);
     }
 }
