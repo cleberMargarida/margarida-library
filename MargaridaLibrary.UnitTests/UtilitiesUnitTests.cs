@@ -8,7 +8,6 @@ using Margarida.Util.Json;
 using Margarida.Util.Number;
 using NUnit.Framework;
 using System;
-using Margarida.Util.Enumerable;
 using Margarida.Util.Bool;
 
 namespace Margarida.UnitTests
@@ -253,6 +252,7 @@ namespace Margarida.UnitTests
         {
             var p = true;
             var q = false;
+            var r = true;
 
             p.Value().Value.Should().BeTrue();
             p.Value().Not.Should().BeFalse();
@@ -261,6 +261,10 @@ namespace Margarida.UnitTests
             (!p).With(q).HasSameValue.Should().BeTrue();
             (!p).With(q).ResultInFalse.Should().BeTrue();
             p.With(!q).ResultInTrue.Should().BeTrue();
+            (p).With(q).ResultOfImplication.Should().BeFalse();
+            p.With(!q).With(r).ResultInTrue.Should().BeTrue();
+            (!p).With(q).With(!r).ResultInFalse.Should().BeTrue();
+            (p).With(q).With(!r).ResultOfImplication.Should().BeFalse();
         }
     }
 }
