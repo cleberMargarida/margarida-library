@@ -1,6 +1,6 @@
-﻿namespace Margarida.Util.Linq
+﻿namespace Margarida.Util.Func
 {
-    public static class LinqExt
+    public static class FuncExt
     {
         public static TSource Inner<TSource>(this TSource input, Action<TSource> action)
         {
@@ -18,6 +18,11 @@
         {
             for (var i = 0; i < times; i++)
                 action();
+
         }
+
+        public static Act<TIn, TOut> DoIt<TIn, TOut>(this Func<TIn, TOut> function) => new Act<TIn, TOut>(function);
+
+        public static Act<TIn, TOut> DoIt<TIn, TOut>(this Act<TIn, TOut> function, TIn param) => new Act<TIn, TOut>(param);
     }
 }

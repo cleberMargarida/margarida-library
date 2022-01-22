@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using FluentAssertions;
-using Margarida.Util.Linq;
+using Margarida.Util.Func;
 using Margarida.Util.Convert;
 using Margarida.Util.String;
 using Margarida.Util.Type;
@@ -9,6 +9,7 @@ using Margarida.Util.Number;
 using NUnit.Framework;
 using System;
 using Margarida.Util.Bool;
+using System.Linq;
 
 namespace Margarida.UnitTests
 {
@@ -265,6 +266,36 @@ namespace Margarida.UnitTests
             p.With(!q).With(r).ResultInTrue.Should().BeTrue();
             (!p).With(q).With(!r).ResultInFalse.Should().BeTrue();
             (p).With(q).With(!r).ResultOfImplication.Should().BeFalse();
+        }
+
+        [Test]
+        public void TestActWithWhereConditionIsFail()
+        {
+            Func<int, string> IntIntoString = i => i.ToString();
+
+            string str;
+            int integer = 1;
+            str = IntIntoString.DoIt()
+                               .With(integer)
+                               .Where(x => x == 0)
+                               .Result;
+
+            str.Should().Be(null);
+        }
+
+        [Test]
+        public void TestActWithWhereConditionIsCorrect()
+        {
+            Func<int, string> IntIntoString = i => i.ToString();
+
+            string str;
+            int integer = 0;
+            str = IntIntoString.DoIt()
+                               .With(integer)
+                               .Where(x => x == 0)
+                               .Result;
+
+            str.Should().Be("0");
         }
     }
 }
