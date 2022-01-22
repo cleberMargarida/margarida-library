@@ -23,6 +23,6 @@
 
         public static Act<TIn, TOut> DoIt<TIn, TOut>(this Func<TIn, TOut> function) => new Act<TIn, TOut>(function);
 
-        public static Act<TIn, TOut> DoIt<TIn, TOut>(this Act<TIn, TOut> function, TIn param) => new Act<TIn, TOut>(param);
+        public static Act<TIn, TOut> DoIt<TIn, TOut>(this Act<TIn, TOut> function, TIn param) => new Act<TIn, TOut>(function, param);
     }
 }
