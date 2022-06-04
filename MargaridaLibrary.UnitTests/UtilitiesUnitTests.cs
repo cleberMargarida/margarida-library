@@ -277,7 +277,7 @@ namespace Margarida.UnitTests
             int integer = 1;
             str = IntIntoString.DoIt()
                                .With(integer)
-                               .Where(x => x == 0)
+                               .When(x => x == 0)
                                .Result;
 
             str.Should().Be(null);
@@ -289,13 +289,43 @@ namespace Margarida.UnitTests
             Func<int, string> IntIntoString = i => i.ToString();
 
             string str;
-            int integer = 0;
+            int integer = 1;
             str = IntIntoString.DoIt()
                                .With(integer)
-                               .Where(x => x == 0)
+                               .When(x => x == 0)
                                .Result;
 
             str.Should().Be("0");
+        }
+
+        [Test]
+        public void TestActWithMultipleParam()
+        {
+            Func<int, int, int, int, string> sumToString = (i,j,k,l) => (i+j+k).ToString();
+
+            string str;
+            str = sumToString.DoIt().With(0,1,2,3).When((x,y,z,w) => x == 0).Result;
+
+            str.Should().Be("3");
+        }
+
+        [Test]
+        public void TestWhenTrueWhenNot()
+        {
+            int i = 0;
+            var ret = 1;
+
+            i = ret.WhenItsTrue(i == 0);
+            i.Should().Be(ret);
+
+            i = 1;
+            ret = 0;
+            var other =  2;
+
+            i = ret.WhenItsTrue(i == 0).WhenNot(other);
+            i.Should().NotBe(1);
+            i.Should().NotBe(ret);
+            i.Should().Be(other);
         }
     }
 }

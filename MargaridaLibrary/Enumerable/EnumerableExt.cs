@@ -5,11 +5,13 @@ namespace Margarida.Util.Enumerable
 {
     public static class EnumerableExt
     {
-        public static IEnumerable<IEnumerable<T>> ChunkBy<T>(this IEnumerable<T> source, int chunkSize) => source
-                .Select((x, i) => new { Index = i, Value = x })
-                .GroupBy(x => x.Index / chunkSize)
-                .Select(x => x.Select(v => v.Value).ToList())
-                .ToList();
+        public static IEnumerable<IEnumerable<T>> ChunkBy<T>(this IEnumerable<T> source, int chunkSize)
+        {
+            return source.Select((x, i) => new { Index = i, Value = x })
+                         .GroupBy(x => x.Index / chunkSize)
+                         .Select(x => x.Select(v => v.Value).ToList())
+                         .ToList();
+        }
 
         public static void AddRange<T>(this IList<T> dest, IEnumerable<T> source)
         {
@@ -42,7 +44,9 @@ namespace Margarida.Util.Enumerable
         }
 
         public static T? GetRandom<T>(this IEnumerable<T> ts) where T : new()
-            => ts.HasValue() ? ts.ElementAt(ts.Count() - 1.RandomNumber()) : default(T);
+        {
+            return ts.HasValue() ? ts.ElementAt(ts.Count() - 1.RandomNumber()) : default(T);
+        }
 
         public static void Shuffle<T>(this IList<T> list)
         {
