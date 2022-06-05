@@ -255,7 +255,7 @@ namespace Margarida.UnitTests
             var q = false;
             var r = true;
 
-            p.Value().Value.Should().BeTrue();
+            ((bool)p.Value()).Should().BeTrue();
             p.Value().Not.Should().BeFalse();
             p.Then(q).Should().BeFalse();
             p.With(!q).HasSameValue.Should().BeTrue();
@@ -269,17 +269,18 @@ namespace Margarida.UnitTests
         }
 
         [Test]
+        public void TestActWithOnly()
+        {
+            Func<int, string> IntIntoString = i => i.ToString();
+            string str = IntIntoString.DoIt().With(1);
+            str.Should().Be("1");
+        }
+
+        [Test]
         public void TestActWithWhereConditionIsFail()
         {
             Func<int, string> IntIntoString = i => i.ToString();
-
-            string str;
-            int integer = 1;
-            str = IntIntoString.DoIt()
-                               .With(integer)
-                               .When(x => x == 0)
-                               .Result;
-
+            string str = IntIntoString.DoIt().With(1).When(x => x == 0);
             str.Should().Be(null);
         }
 
@@ -287,25 +288,15 @@ namespace Margarida.UnitTests
         public void TestActWithWhereConditionIsCorrect()
         {
             Func<int, string> IntIntoString = i => i.ToString();
-
-            string str;
-            int integer = 1;
-            str = IntIntoString.DoIt()
-                               .With(integer)
-                               .When(x => x == 0)
-                               .Result;
-
-            str.Should().Be("0");
+            string str = IntIntoString.DoIt().With(1).When(x => x == 1);
+            str.Should().Be("1");
         }
 
         [Test]
         public void TestActWithMultipleParam()
         {
             Func<int, int, int, int, string> sumToString = (i,j,k,l) => (i+j+k).ToString();
-
-            string str;
-            str = sumToString.DoIt().With(0,1,2,3).When((x,y,z,w) => x == 0).Result;
-
+            string str = sumToString.DoIt().With(0,1,2,3).When((x,y,z,w) => x == 0);
             str.Should().Be("3");
         }
 
@@ -326,6 +317,30 @@ namespace Margarida.UnitTests
             i.Should().NotBe(1);
             i.Should().NotBe(ret);
             i.Should().Be(other);
+        }
+
+        [Test]
+        public void TestActWithMultipleWhen()
+        {
+            Func<int, string> IntIntoString = i => i.ToString();
+            string str = IntIntoString.DoIt().With(1).When(x => x == 1).When(x => x != 0);
+            str.Should().Be("1");
+        }
+
+        [Test]
+        public void TestActWithMultipleWhenFirstPassSecondFail()
+        {
+            Func<int, string> IntIntoString = i => i.ToString();
+            string str = IntIntoString.DoIt().With(1).When(x => x == 1).When(x => x != 1);
+            str.Should().BeNull();
+        }
+
+        [Test]
+        public void TestActWithMultipleWhenBothFail()
+        {
+            Func<int, string> IntIntoString = i => i.ToString();
+            string str = IntIntoString.DoIt().With(1).When(x => x == 0).When(x => x != 1);
+            str.Should().BeNull();
         }
     }
 }

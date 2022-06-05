@@ -7,9 +7,14 @@ namespace Margarida.Util.Func
         protected bool condition = true;
         protected TOut result;
 
-        public TOut Result => ApplyFunctionAndGet().WhenItsTrue(condition);
+        private TOut Result => ApplyFunctionAndGet().WhenItsTrue(condition);
         
         protected abstract TOut ApplyFunctionAndGet();
+        
+        public static implicit operator TOut(Act<TOut> act)
+        {
+            return act.Result;
+        }
     }
 
     public class Act<TIn, TOut> : Act<TOut>

@@ -45,7 +45,7 @@ namespace Margarida.Util.Enumerable
 
         public static T? GetRandom<T>(this IEnumerable<T> ts) where T : new()
         {
-            return ts.HasValue() ? ts.ElementAt(ts.Count() - 1.RandomNumber()) : default(T);
+            return ts.HasValue() ? ts.ElementAt((ts.Count() - 1).RandomNumber()) : default(T);
         }
 
         public static void Shuffle<T>(this IList<T> list)
