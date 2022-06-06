@@ -1,15 +1,15 @@
 ﻿namespace Margarida.Util.Bool
 {
-    public class BoolProviderUnique
+    public class AwesomeBoolSingle
     {
         private bool nextBool;
 
-        public BoolProviderUnique(bool boolean)
+        public AwesomeBoolSingle(bool boolean)
         {
             nextBool = boolean;
         }
 
-        public static implicit operator bool (BoolProviderUnique provider)
+        public static implicit operator bool (AwesomeBoolSingle provider)
         {
             return provider.nextBool;
         }

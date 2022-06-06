@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using FluentAssertions;
-using Margarida.Util.Func;
+using Margarida.Util.Linq;
 using Margarida.Util.Convert;
 using Margarida.Util.String;
 using Margarida.Util.Type;
@@ -10,6 +10,7 @@ using NUnit.Framework;
 using System;
 using Margarida.Util.Bool;
 using System.Linq;
+using Margarida.Util.Enum;
 
 namespace Margarida.UnitTests
 {
@@ -17,6 +18,14 @@ namespace Margarida.UnitTests
     public class UtilitiesUnitTests
     {
         #region Internal Classes
+        public enum SomeEnum
+        {
+            [Util.Attributes.Description("value 1")]
+            val1 = 1, 
+            
+            val2 = 2
+        }
+
         public struct SomeStruct
         {
             public struct CopiedStructLvl2
@@ -269,34 +278,34 @@ namespace Margarida.UnitTests
         }
 
         [Test]
-        public void TestActWithOnly()
+        public void TestAwesomeFuncWithOnly()
         {
             Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.DoIt().With(1);
+            string str = IntIntoString.With(1);
             str.Should().Be("1");
         }
 
         [Test]
-        public void TestActWithWhereConditionIsFail()
+        public void TestAwesomeFuncWithWhereConditionIsFail()
         {
             Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.DoIt().With(1).When(x => x == 0);
+            string str = IntIntoString.With(1).When(x => x == 0);
             str.Should().Be(null);
         }
 
         [Test]
-        public void TestActWithWhereConditionIsCorrect()
+        public void TestAwesomeFuncWithWhereConditionIsCorrect()
         {
             Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.DoIt().With(1).When(x => x == 1);
+            string str = IntIntoString.With(1).When(x => x == 1);
             str.Should().Be("1");
         }
 
         [Test]
-        public void TestActWithMultipleParam()
+        public void TestAwesomeFuncWithMultipleParam()
         {
             Func<int, int, int, int, string> sumToString = (i,j,k,l) => (i+j+k).ToString();
-            string str = sumToString.DoIt().With(0,1,2,3).When((x,y,z,w) => x == 0);
+            string str = sumToString.With(0,1,2,3).When((x,y,z,w) => x == 0);
             str.Should().Be("3");
         }
 
@@ -306,40 +315,40 @@ namespace Margarida.UnitTests
             int i = 0;
             var ret = 1;
 
-            i = ret.WhenItsTrue(i == 0);
+            i = ret.When(i == 0);
             i.Should().Be(ret);
 
             i = 1;
             ret = 0;
             var other =  2;
 
-            i = ret.WhenItsTrue(i == 0).WhenNot(other);
+            i = ret.When(i == 0).WhenNot(other);
             i.Should().NotBe(1);
             i.Should().NotBe(ret);
             i.Should().Be(other);
         }
 
         [Test]
-        public void TestActWithMultipleWhen()
+        public void TestAwesomeFuncWithMultipleWhen()
         {
             Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.DoIt().With(1).When(x => x == 1).When(x => x != 0);
+            string str = IntIntoString.With(1).When(x => x == 1).When(x => x != 0);
             str.Should().Be("1");
         }
 
         [Test]
-        public void TestActWithMultipleWhenFirstPassSecondFail()
+        public void TestAwesomeFuncWithMultipleWhenFirstPassSecondFail()
         {
             Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.DoIt().With(1).When(x => x == 1).When(x => x != 1);
+            string str = IntIntoString.With(1).When(x => x == 1).When(x => x != 1);
             str.Should().BeNull();
         }
 
         [Test]
-        public void TestActWithMultipleWhenBothFail()
+        public void TestAwesomeFuncWithMultipleWhenBothFail()
         {
             Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.DoIt().With(1).When(x => x == 0).When(x => x != 1);
+            string str = IntIntoString.With(1).When(x => x == 0).When(x => x != 1);
             str.Should().BeNull();
         }
     }

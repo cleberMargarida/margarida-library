@@ -8,24 +8,32 @@ namespace Margarida.Util.Bool
 {
     public class WhenTrue<T>
     {
-        private T? input;
         private bool passed;
+        public T Value { get; private set; }
 
-        public static implicit operator T(WhenTrue<T> whenTrue)
+        public static implicit operator T?(WhenTrue<T> whenTrue)
         {
-            if (whenTrue.passed) return whenTrue.input;
+            if (whenTrue.passed) 
+                return whenTrue.Value;
+
             return default;
         }
 
-        public WhenTrue(T? input, bool condition)
+        public WhenTrue(T input, bool condition)
         {
-            this.input = input;
+            this.Value = input;
             this.passed = condition;
         }
 
-        public T WhenNot(T info)
+        public WhenTrue(T input, Func<T, bool> condition)
         {
-            return info;
+            this.Value = input;
+            this.passed = condition(input);
+        }
+
+        public T WhenNot(T param)
+        {
+            return param;
         }
     }
 }

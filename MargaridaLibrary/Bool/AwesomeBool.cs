@@ -1,18 +1,18 @@
 ﻿namespace Margarida.Util.Bool
 {
-    public class BoolProvider
+    public class AwesomeBool
     {
         protected bool left;
         protected bool right;
-        private BoolProvider? local;
+        private AwesomeBool? local;
 
-        public BoolProvider(bool left, bool right)
+        public AwesomeBool(bool left, bool right)
         {
             this.left = left;
             this.right = right;
         }
 
-        public BoolProvider(BoolProvider local, bool right)
+        public AwesomeBool(AwesomeBool local, bool right)
         {
             this.local = local;
             this.right = right;

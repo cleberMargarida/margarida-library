@@ -1,5 +1,6 @@
 ﻿using Margarida.Util.Bool;
 using System.Collections;
+#pragma warning disable CS0184
 
 namespace Margarida.Util.Type
 {
@@ -36,3 +37,5 @@ namespace Margarida.Util.Type
         }
     }
 }
+
+#pragma warning restore CS0184

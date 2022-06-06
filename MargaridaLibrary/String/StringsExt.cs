@@ -4,9 +4,11 @@ namespace Margarida.Util.String
 {
     public static class StringsExt
     {
-        public static string Between(this string str, string firstString, string lastString) =>
-            str.Substring(str.IndexOf(firstString) + firstString.Length,
-                str.Substring(str.IndexOf(firstString) + firstString.Length).IndexOf(lastString));
+        public static string Between(this string str, string firstString, string lastString)
+        {
+            return str.Substring(str.IndexOf(firstString) + firstString.Length,
+                                 str.Substring(str.IndexOf(firstString) + firstString.Length).IndexOf(lastString));
+        }
 
         public static string Unescape(this string textString) => Regex.Unescape(textString);
 
@@ -31,7 +33,9 @@ namespace Margarida.Util.String
             return pairs;
         }
 
-        public static string GetOnlyNumbers(this string source) =>
-            new string(source.Where(char.IsNumber).ToArray());
+        public static string GetOnlyNumbers(this string source)
+        {
+            return new string(source.Where(char.IsNumber).ToArray());
+        }
     }
 }
