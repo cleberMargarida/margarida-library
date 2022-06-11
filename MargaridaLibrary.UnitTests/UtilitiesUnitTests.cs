@@ -11,6 +11,7 @@ using System;
 using Margarida.Util.Bool;
 using System.Linq;
 using Margarida.Util.Enum;
+using System.Linq.Expressions;
 
 namespace Margarida.UnitTests
 {
@@ -255,101 +256,6 @@ namespace Margarida.UnitTests
 
             dateTime.SetDateTimeFrom(dtString, format)
                 .Should().Be(expect);
-        }
-
-        [Test]
-        public void TestBoolExtValueGets()
-        {
-            var p = true;
-            var q = false;
-            var r = true;
-
-            ((bool)p.Value()).Should().BeTrue();
-            p.Value().Not.Should().BeFalse();
-            p.Then(q).Should().BeFalse();
-            p.With(!q).HasSameValue.Should().BeTrue();
-            (!p).With(q).HasSameValue.Should().BeTrue();
-            (!p).With(q).ResultInFalse.Should().BeTrue();
-            p.With(!q).ResultInTrue.Should().BeTrue();
-            (p).With(q).ResultOfImplication.Should().BeFalse();
-            p.With(!q).With(r).ResultInTrue.Should().BeTrue();
-            (!p).With(q).With(!r).ResultInFalse.Should().BeTrue();
-            (p).With(q).With(!r).ResultOfImplication.Should().BeFalse();
-        }
-
-        [Test]
-        public void TestAwesomeFuncWithOnly()
-        {
-            Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.With(1);
-            str.Should().Be("1");
-        }
-
-        [Test]
-        public void TestAwesomeFuncWithWhereConditionIsFail()
-        {
-            Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.With(1).When(x => x == 0);
-            str.Should().Be(null);
-        }
-
-        [Test]
-        public void TestAwesomeFuncWithWhereConditionIsCorrect()
-        {
-            Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.With(1).When(x => x == 1);
-            str.Should().Be("1");
-        }
-
-        [Test]
-        public void TestAwesomeFuncWithMultipleParam()
-        {
-            Func<int, int, int, int, string> sumToString = (i,j,k,l) => (i+j+k).ToString();
-            string str = sumToString.With(0,1,2,3).When((x,y,z,w) => x == 0);
-            str.Should().Be("3");
-        }
-
-        [Test]
-        public void TestWhenTrueWhenNot()
-        {
-            int i = 0;
-            var ret = 1;
-
-            i = ret.When(i == 0);
-            i.Should().Be(ret);
-
-            i = 1;
-            ret = 0;
-            var other =  2;
-
-            i = ret.When(i == 0).WhenNot(other);
-            i.Should().NotBe(1);
-            i.Should().NotBe(ret);
-            i.Should().Be(other);
-        }
-
-        [Test]
-        public void TestAwesomeFuncWithMultipleWhen()
-        {
-            Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.With(1).When(x => x == 1).When(x => x != 0);
-            str.Should().Be("1");
-        }
-
-        [Test]
-        public void TestAwesomeFuncWithMultipleWhenFirstPassSecondFail()
-        {
-            Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.With(1).When(x => x == 1).When(x => x != 1);
-            str.Should().BeNull();
-        }
-
-        [Test]
-        public void TestAwesomeFuncWithMultipleWhenBothFail()
-        {
-            Func<int, string> IntIntoString = i => i.ToString();
-            string str = IntIntoString.With(1).When(x => x == 0).When(x => x != 1);
-            str.Should().BeNull();
         }
     }
 }
