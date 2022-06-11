@@ -14,6 +14,31 @@ namespace Margarida.Util.Helpers
             {
                 return new(action);
             }
+
+            public static void ThrowArgumentException(string message)
+            {
+                throw new ArgumentException(message);
+            }
+
+            public static void ThrowArgumentNullException(string message)
+            {
+                throw new ArgumentNullException(message);
+            }
+
+            public static void ThrowInvalidOperationException(string message)
+            {
+                throw new InvalidOperationException(message);
+            }
+
+            public static void ThrowFileNotFoundException(string message)
+            {
+                throw new FileNotFoundException(message);
+            }
+
+            public static void ThrowFormatException(string message)
+            {
+                throw new FormatException(message);
+            }
         }
 
         public static void Swap<T>(ref T a, ref T b)

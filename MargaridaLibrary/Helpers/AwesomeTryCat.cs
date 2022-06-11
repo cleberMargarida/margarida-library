@@ -12,22 +12,25 @@ namespace Margarida.Util.Helpers
     public abstract class AwesomeTryCatAbstract
     {
         protected Queue<AwesomeTryCatInternalAbstract> queue;
-        protected Action finalizator = () => { };
+        protected Action finalizator;
 
         public AwesomeTryCatAbstract()
         {
             queue = new Queue<AwesomeTryCatInternalAbstract>();
+            finalizator = () => { };
         }
     }
 
     public class AwesomeTryCat : AwesomeTryCatAbstract
     {
-        private int attempts = 1;
-        private TimeSpan delay = default;
+        private int attempts;
+        private TimeSpan delay;
         private Action action;
 
         public AwesomeTryCat(Action action)
         {
+            attempts = 1;
+            delay = default;
             this.action = action;
         }
 
@@ -55,7 +58,7 @@ namespace Margarida.Util.Helpers
             {
                 if (item.MustIgnore) return;
 
-                if (item.Option.Attend(localEx))
+                if (localEx != null && item.Option.Attend(localEx))
                     item.ApplyAction(localEx);
 
                 Thread.Sleep(delay);
@@ -109,7 +112,7 @@ namespace Margarida.Util.Helpers
     public class TryCatchOptions
     {
         protected System.Type? specificType;
-        protected Func<Exception, bool> followingPredicate;
+        protected Func<Exception, bool>? followingPredicate;
 
         public bool AnyFailure { get; set; }
         public bool ExistInnerException { get; set; }
@@ -128,12 +131,12 @@ namespace Margarida.Util.Helpers
             followingPredicate = predicate;
         }
 
-        internal bool Attend(Exception? ex)
+        internal bool Attend(Exception ex)
         {
             if (AnyFailure) return true;
             if (ExistInnerException) return ex?.InnerException != null;
             if (TypeSpecified) return specificType == ex.GetType();
-            if (FollowingSpecified) return followingPredicate(ex);
+            if (FollowingSpecified) return followingPredicate != null && followingPredicate(ex);
             return false;
         }
     }

@@ -56,6 +56,13 @@ namespace Margarida.Util.Linq
             ((Action<T1>)this)(input);
             return this;
         }
+
+        public AwesomeExpression<T1, T2> Execute(Expression<Action<T1>> expression)
+        {
+            var action = expression.Compile();
+            action(input);
+            return this;
+        }
     }
 
     public static class AwesomeExpressionExt
