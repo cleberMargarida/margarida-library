@@ -15,12 +15,14 @@ namespace Margarida.UnitTests
         public void TestTryCatNone()
         {
             Helper.Ex.Try(DoSomeElse)
-                     //.IgnoreFails()
-                     //.CatchType<NotImplementedException>(TreatmentEx).On(x => x.Following(x => x.Message != string.Empty))
-                     .Catch(Treatment).On(x => x.OfType<NotImplementedException>())
-                     //.Attempts(1)
-                     //.Finally(() => { })
-                     .Fire();
+                     .IgnoreFails()
+                     .CatchType<NotImplementedException>(TreatmentEx)
+                        .On(x => x.Following(x => x.Message != string.Empty))
+                     .Catch(Treatment)
+                        .On(x => x.OfType<NotImplementedException>())
+                     .Attempts(1)
+                     .Finally(() => { })
+                     .Execute();
         }
 
         private void DoSomeElse()

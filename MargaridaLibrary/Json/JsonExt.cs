@@ -1,11 +1,23 @@
 ﻿using Margarida.Util.String;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace Margarida.Util.Json
 {
     public static class JsonExt
     {
+        public static bool IsValid(this string schemaJson)
+        {
+            if (string.IsNullOrEmpty(schemaJson)) 
+                return false;
+
+            try { JsonDocument.Parse(schemaJson); }
+            catch { return false; }
+
+            return true;
+        }
+
         public static string Serialize<T>(this T input) => JsonConvert.SerializeObject(input);
 
         public static T Deserialize<T>(this string input) where T : new() => JsonConvert.DeserializeObject<T>(input) ?? new T();
@@ -40,8 +52,9 @@ namespace Margarida.Util.Json
                     TreatedMembers(graph?[propertiesLevel[level]] as JObject, propertiesLevel, ++level, value);
             }
 
-            (string, string[]) ExtractMembersFromException(Exception ex, out string value, out string[] propertiesLevel)
-                => (value = ex.Message.Between(": ", ". Path"), propertiesLevel = ex.Message.Between(" Path '", "'").Split('.'));
+            (string, string[]) ExtractMembersFromException(Exception ex, out string value, out string[] propertiesLevel) => (
+                value = ex.Message.Between(": ", ". Path"), 
+                propertiesLevel = ex.Message.Between(" Path '", "'").Split('.'));
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Margarida.Util.Helpers
+namespace Margarida.Util.Helpers.Internal
 {
     public abstract class AwesomeTryCatAbstract
     {
@@ -27,10 +27,8 @@ namespace Margarida.Util.Helpers
         private TimeSpan delay;
         private Action action;
 
-        public AwesomeTryCat(Action action)
+        public AwesomeTryCat(Action action) : base()
         {
-            attempts = 1;
-            delay = default;
             this.action = action;
         }
 
@@ -41,7 +39,7 @@ namespace Margarida.Util.Helpers
             return this;
         }
 
-        public void Fire()
+        public void Execute()
         {
             Exception? localEx = default;
 

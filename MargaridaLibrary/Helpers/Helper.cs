@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Margarida.Util.Helpers.Internal;
 
 namespace Margarida.Util.Helpers
 {
@@ -15,29 +11,35 @@ namespace Margarida.Util.Helpers
                 return new(action);
             }
 
-            public static void ThrowArgumentException(string message)
+            public static ArgumentException ThrowArgumentException(string message)
             {
-                throw new ArgumentException(message);
+                return new ArgumentException(message);
             }
 
-            public static void ThrowArgumentNullException(string message)
+            public static ArgumentNullException ThrowArgumentNullException(string message)
             {
-                throw new ArgumentNullException(message);
+                return new ArgumentNullException(message);
             }
 
-            public static void ThrowInvalidOperationException(string message)
+            public static InvalidOperationException ThrowInvalidOperationException(string message)
             {
-                throw new InvalidOperationException(message);
+                return new InvalidOperationException(message);
             }
 
-            public static void ThrowFileNotFoundException(string message)
+            public static FileNotFoundException ThrowFileNotFoundException(string message)
             {
-                throw new FileNotFoundException(message);
+                return new FileNotFoundException(message);
             }
 
-            public static void ThrowFormatException(string message)
+            public static FormatException ThrowFormatException(string message)
             {
-                throw new FormatException(message);
+                return new FormatException(message);
+            }
+
+
+            public static NotImplementedException ThrowNotImplementedException(string message)
+            {
+                return new NotImplementedException(message);
             }
         }
 

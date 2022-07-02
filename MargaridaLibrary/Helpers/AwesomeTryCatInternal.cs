@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Margarida.Util.Helpers
+namespace Margarida.Util.Helpers.Internal
 {
     public abstract class AwesomeTryCatInternalAbstract
     {

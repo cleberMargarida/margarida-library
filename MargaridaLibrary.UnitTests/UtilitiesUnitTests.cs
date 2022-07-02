@@ -257,5 +257,24 @@ namespace Margarida.UnitTests
             dateTime.SetDateTimeFrom(dtString, format)
                 .Should().Be(expect);
         }
+
+        [Test]
+        public void TestValidatorJson()
+        {
+            var jsonInvalid = 
+            @"{
+                id : 1,
+                x
+            }";
+
+            jsonInvalid.IsValid().Should().BeFalse();
+
+            var jsonValid =
+            @"{
+                id : 1,
+            }";
+
+            jsonValid.IsValid().Should().BeFalse();
+        }
     }
 }
