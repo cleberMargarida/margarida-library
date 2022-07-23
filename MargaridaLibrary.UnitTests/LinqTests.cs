@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Margarida.Util.Linq;
+using Margarida.Util.Expressions;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Margarida.Util.Linq;
+using Margarida.Util.Expressions;
 using NUnit.Framework;
 using System;
 using System.Linq.Expressions;
@@ -22,7 +22,7 @@ namespace Margarida.UnitTests
         public static class Bar
         {
             public static Foo Foo => new Foo();
-            public static Foo CreateFooWithProperty1AndSume1(Expression<Func<Foo, int>> expression) => expression.Assign(1).To(Foo).Execute(x => x.DoSomething());
+            public static Foo CreateFooWithProperty1AndSume1(Expression<Func<Foo, int>> expression) => expression.Assign(1).To(Foo).Action(x => x.DoSomething());
             public static Foo CreateFooWithProperty2(Expression<Func<Foo, int>> expression) => expression.To(Foo).Assign(2);
         }
 
@@ -32,8 +32,8 @@ namespace Margarida.UnitTests
             var foo = Bar.CreateFooWithProperty1AndSume1(x => x.MyProperty);
             foo.MyProperty.Should().Be(2);
 
-            foo = Bar.CreateFooWithProperty1AndSume1(x => x.MyProperty);
-            foo.MyProperty.Should().Be(1);
+            foo = Bar.CreateFooWithProperty2(x => x.MyProperty);
+            foo.MyProperty.Should().Be(2);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Margarida.Util.Bool;
-using Margarida.Util.Linq;
+using Margarida.Util.Expressions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

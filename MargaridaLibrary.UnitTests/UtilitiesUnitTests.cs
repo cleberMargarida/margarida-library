@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using FluentAssertions;
-using Margarida.Util.Linq;
+using Margarida.Util.Expressions;
 using Margarida.Util.Convert;
 using Margarida.Util.String;
 using Margarida.Util.Type;

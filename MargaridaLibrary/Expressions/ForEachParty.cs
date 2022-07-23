@@ -1,4 +1,4 @@
-﻿namespace Margarida.Util.Linq
+﻿namespace Margarida.Util.Expressions
 {
     public class ForEachParty<T>
     {

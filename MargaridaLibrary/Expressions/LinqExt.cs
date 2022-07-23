@@ -1,7 +1,7 @@
 ﻿using Margarida.Util.Helpers;
 using System.Linq.Expressions;
 
-namespace Margarida.Util.Linq
+namespace Margarida.Util.Expressions
 {
     public static class LinqExt
     {
